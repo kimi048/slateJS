@@ -4,16 +4,6 @@ import logo from './logo.svg'
 import './App.css'
 import { htmlToSlateAST } from '@graphcms/html-to-slate-ast';
 
-import React, { useCallback, useMemo } from 'react';
-import { Editable, withReact, useSlate, Slate } from 'slate-react';
-import {
-  Editor,
-  Transforms,
-  createEditor,
-  Descendant,
-  Element as SlateElement,
-} from 'slate';
-import { withHistory } from 'slate-history';
 import RichText from "./Editor";
 
 async function App() {
