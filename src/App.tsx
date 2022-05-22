@@ -15,7 +15,7 @@ function App() {
   // console.log(ast);}
   return (
     <div className="App">
-      hoghoge
+      
       <RichText/>
     </div>
   )
