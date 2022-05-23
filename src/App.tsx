@@ -5,7 +5,7 @@ import './App.css'
 import { htmlToSlateAST } from '@graphcms/html-to-slate-ast';
 
 import RichText from "./Editor";
-
+import Plate from "./plate/PlateEditor"
 function App() {
 
   // const [count, setCount] = useState(0);
@@ -15,8 +15,8 @@ function App() {
   // console.log(ast);}
   return (
     <div className="App">
-      
-      <RichText/>
+      <Plate/>
+      {/* <RichText/> */}
     </div>
   )
 }
