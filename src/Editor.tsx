@@ -22,13 +22,23 @@ const HOTKEYS = {
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify']
 
-const RichTextExample = () => {
+const RichTextExample = ({initialValue}) => {
   const renderElement = useCallback(props => <Element {...props} />, [])
   const renderLeaf = useCallback(props => <Leaf {...props} />, [])
   const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-
+  
   return (
-    <Slate editor={editor} value={initialValue}>
+    <Slate editor={editor} value={initialValue} onChange={value => {
+      const isAstChange = editor.operations.some(
+        op => 'set_selection' !== op.type
+      )
+      if (isAstChange) {
+        // Save the value to Local Storage.
+        const content = JSON.stringify(value)
+        console.log(content);
+      }
+    }
+  }>
       <Toolbar>
         <MarkButton format="bold" icon="format_bold" />
         <MarkButton format="italic" icon="format_italic" />
@@ -50,6 +60,7 @@ const RichTextExample = () => {
         placeholder="Enter some rich text…"
         spellCheck
         autoFocus
+        
         onKeyDown={event => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {
@@ -232,42 +243,6 @@ const MarkButton = ({ format, icon }) => {
   )
 }
 
-const initialValue: Descendant[] = [
-  {
-    type: 'paragraph',
-    children: [
-      { text: 'This is editable ' },
-      { text: 'rich', bold: true },
-      { text: ' text, ' },
-      { text: 'much', italic: true },
-      { text: ' better than a ' },
-      { text: '<textarea>', code: true },
-      { text: '!' },
-    ],
-  },
-  {
-    type: 'paragraph',
-    children: [
-      {
-        text:
-          "Since it's rich text, you can do things like turn a selection of text ",
-      },
-      { text: 'bold', bold: true },
-      {
-        text:
-          ', or add a semantically rendered block quote in the middle of the page, like this:',
-      },
-    ],
-  },
-  {
-    type: 'block-quote',
-    children: [{ text: 'A wise quote.' }],
-  },
-  {
-    type: 'paragraph',
-    align: 'center',
-    children: [{ text: 'Try it out for yourself!' }],
-  },
-]
+
 
 export default RichTextExample
